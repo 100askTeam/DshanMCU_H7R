@@ -35,6 +35,8 @@
 
 extern TIM_HandleTypeDef htim12;
 
+static uint16_t lcd_current_backlight = 0;
+
 void lcd_backlight_init(void)
 {
 	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_2);
@@ -43,7 +45,14 @@ void lcd_backlight_init(void)
 
 void lcd_backlight_set_value(uint16_t pwm_value)
 {
+	lcd_current_backlight = pwm_value;
+
 	__HAL_TIM_SetCompare(&htim12, TIM_CHANNEL_2, pwm_value);
+}
+
+uint16_t lcd_backlight_get_value(void)
+{
+	return lcd_current_backlight;
 }
 
 void lcd_backlight_test(void)

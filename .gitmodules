@@ -5,3 +5,6 @@
 	path = project/App/DshanMCU_H7R_LVGL_Desktop/Appli/Middlewares_100ask/lvgl
 	url = https://gitee.com/weidongshan/lvgl.git
 	branch = release/v9.2
+[submodule "project/App/DshanMCU_H7R_LVGL_Desktop/Appli/Middlewares_100ask/lv_lib_100ask"]
+	path = project/App/DshanMCU_H7R_LVGL_Desktop/Appli/Middlewares_100ask/lv_lib_100ask
+	url = https://gitee.com/weidongshan/lv_lib_100ask.git

@@ -40,6 +40,9 @@
 
 void lcd_backlight_init(void);
 void lcd_backlight_set_value(uint16_t pwm_value);
+
+uint16_t lcd_backlight_get_value(void);
+
 void lcd_backlight_test(void);
 
 #endif /* _DRIVER_LCD_BACKLIGHT_H */
