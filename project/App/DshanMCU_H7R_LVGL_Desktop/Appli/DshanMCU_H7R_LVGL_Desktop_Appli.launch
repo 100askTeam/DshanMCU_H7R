@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.st.stm32cube.ide.mcu.debug.launch.launchConfigurationType">
     <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.access_port_id" value="1"/>
-    <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.cubeprog_external_loaders" value="[{&quot;fLoaderPath&quot;:&quot;DshanMCU_H7R_Custom_ExtMemLoader_ExtMemLoader.stldr&quot;,&quot;fInitialize&quot;:true,&quot;fIsEnabled&quot;:true}]"/>
+    <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.cubeprog_external_loaders" value="[{&quot;fLoaderPath&quot;:&quot;DshanMCU_H7R_SPI_Flash_0x00000000_ExtMemLoader.stldr&quot;,&quot;fInitialize&quot;:true,&quot;fIsEnabled&quot;:true}]"/>
     <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.debug_auth_certif_path" value=""/>
     <booleanAttribute key="com.st.stm32cube.ide.mcu.debug.launch.debug_auth_check_enable" value="false"/>
     <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.debug_auth_key_path" value=""/>

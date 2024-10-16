@@ -90,7 +90,7 @@ static void HAL_FMC_MspInit(void){
   /** Initializes the peripherals clock
   */
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_FMC;
-    PeriphClkInit.FmcClockSelection = RCC_FMCCLKSOURCE_HCLK;
+    PeriphClkInit.FmcClockSelection = RCC_FMCCLKSOURCE_PLL2R;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
     {
       Error_Handler();
