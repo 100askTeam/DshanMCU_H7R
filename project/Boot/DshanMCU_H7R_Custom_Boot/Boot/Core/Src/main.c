@@ -24,6 +24,7 @@
 #include "memorymap.h"
 #include "sbs.h"
 #include "spi.h"
+#include "usb_otg.h"
 #include "gpio.h"
 #include "fmc.h"
 
@@ -112,6 +113,7 @@ int main(void)
   MX_DMA2D_Init();
   MX_SPI5_Init();
   MX_SBS_Init();
+  MX_USB_OTG_FS_PCD_Init();
   MX_EXTMEM_MANAGER_Init();
   /* USER CODE BEGIN 2 */
 
@@ -157,10 +159,11 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL1.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL1.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL1.PLLM = 4;
@@ -173,8 +176,8 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL1.PLLFractional = 4096;
   RCC_OscInitStruct.PLL2.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL2.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL2.PLLM = 32;
-  RCC_OscInitStruct.PLL2.PLLN = 200;
+  RCC_OscInitStruct.PLL2.PLLM = 4;
+  RCC_OscInitStruct.PLL2.PLLN = 25;
   RCC_OscInitStruct.PLL2.PLLP = 2;
   RCC_OscInitStruct.PLL2.PLLQ = 2;
   RCC_OscInitStruct.PLL2.PLLR = 2;
@@ -186,7 +189,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL3.PLLM = 4;
   RCC_OscInitStruct.PLL3.PLLN = 25;
   RCC_OscInitStruct.PLL3.PLLP = 2;
-  RCC_OscInitStruct.PLL3.PLLQ = 2;
+  RCC_OscInitStruct.PLL3.PLLQ = 20;
   RCC_OscInitStruct.PLL3.PLLR = 10;
   RCC_OscInitStruct.PLL3.PLLS = 2;
   RCC_OscInitStruct.PLL3.PLLT = 2;
