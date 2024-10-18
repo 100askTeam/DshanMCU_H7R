@@ -19,11 +19,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma2d.h"
+#include "fatfs.h"
 #include "flash.h"
 #include "gpdma.h"
 #include "gpu2d.h"
 #include "i2c.h"
 #include "ltdc.h"
+#include "sdmmc.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -129,6 +131,8 @@ int main(void)
   MX_UART7_Init();
   MX_FLASH_Init();
   MX_GPU2D_Init();
+  MX_SDMMC1_SD_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
   driver_w800_init();
