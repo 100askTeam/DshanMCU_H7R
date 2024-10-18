@@ -80,6 +80,8 @@ void HAL_MspInit(void)
    Error_Handler();
   }
 
+  HAL_PWREx_EnableUSBReg();
+
   /* USER CODE BEGIN MspInit 1 */
 
   /* USER CODE END MspInit 1 */

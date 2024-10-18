@@ -28,6 +28,7 @@
 #include "sdmmc.h"
 #include "tim.h"
 #include "usart.h"
+#include "usb_otg.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -48,6 +49,8 @@
 #include "driver_ws28xx.h"
 #include "driver_w800.h"
 
+// reference: https://github.com/STMicroelectronics/stm32-usbx-examples/tree/main/Projects/NUCLEO-H723ZG/Applications/USBX/Ux_Device_CDC_ACM
+#include "ux_device_cdc_acm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -79,7 +82,10 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void my_log_cb(lv_log_level_t level, const char * buf)
+{
+	ux_device_cdc_acm_printf("%s", buf);
+}
 /* USER CODE END 0 */
 
 /**
@@ -133,6 +139,8 @@ int main(void)
   MX_GPU2D_Init();
   MX_SDMMC1_SD_Init();
   MX_FATFS_Init();
+  MX_USB_OTG_FS_PCD_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   driver_w800_init();
@@ -145,6 +153,7 @@ int main(void)
 
   lv_tick_set_cb(HAL_GetTick);
   lv_delay_set_cb(HAL_Delay);
+  lv_log_register_print_cb(my_log_cb);
 
   lcd_backlight_init();
   lcd_backlight_set_value(1000);
@@ -153,6 +162,8 @@ int main(void)
   //lv_demo_music();
   //lv_demo_benchmark();
   lv_100ask_generic_ui();
+
+  LV_LOG_USER("DshanMCU-H7R initialization completed!");
 
   /* USER CODE END 2 */
 
@@ -191,7 +202,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+  if (htim->Instance == TIM2) {
+  	ux_system_tasks_run();
+  }
   /* USER CODE END Callback 1 */
 }
 
