@@ -23,6 +23,7 @@
 #include "ltdc.h"
 #include "memorymap.h"
 #include "sbs.h"
+#include "sdmmc.h"
 #include "spi.h"
 #include "usb_otg.h"
 #include "gpio.h"
@@ -114,6 +115,7 @@ int main(void)
   MX_SPI5_Init();
   MX_SBS_Init();
   MX_USB_OTG_FS_PCD_Init();
+  MX_SDMMC1_SD_Init();
   MX_EXTMEM_MANAGER_Init();
   /* USER CODE BEGIN 2 */
 
@@ -181,7 +183,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL2.PLLP = 2;
   RCC_OscInitStruct.PLL2.PLLQ = 2;
   RCC_OscInitStruct.PLL2.PLLR = 2;
-  RCC_OscInitStruct.PLL2.PLLS = 2;
+  RCC_OscInitStruct.PLL2.PLLS = 8;
   RCC_OscInitStruct.PLL2.PLLT = 2;
   RCC_OscInitStruct.PLL2.PLLFractional = 0;
   RCC_OscInitStruct.PLL3.PLLState = RCC_PLL_ON;
