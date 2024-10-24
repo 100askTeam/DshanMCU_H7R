@@ -20,11 +20,12 @@
 #include "main.h"
 #include "dma2d.h"
 #include "extmem_manager.h"
+#include "gpdma.h"
 #include "ltdc.h"
 #include "memorymap.h"
 #include "sbs.h"
-#include "sdmmc.h"
 #include "spi.h"
+#include "tim.h"
 #include "usb_otg.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -109,13 +110,17 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_GPDMA1_Init();
   MX_FMC_Init();
   MX_LTDC_Init();
   MX_DMA2D_Init();
   MX_SPI5_Init();
   MX_SBS_Init();
   MX_USB_OTG_FS_PCD_Init();
-  MX_SDMMC1_SD_Init();
+  MX_TIM12_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_TIM4_Init();
   MX_EXTMEM_MANAGER_Init();
   /* USER CODE BEGIN 2 */
 
@@ -319,6 +324,27 @@ static void MPU_Config(void)
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 
+}
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM1 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM1) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
 }
 
 /**
