@@ -471,5 +471,11 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 }
 
 /* USER CODE BEGIN 1 */
-
+#if 0
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if (htim == (&htim2)) {
+		ux_system_tasks_run();
+	}
+}
+#endif
 /* USER CODE END 1 */

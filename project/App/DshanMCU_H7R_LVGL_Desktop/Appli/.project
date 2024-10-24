@@ -77,11 +77,6 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32H7RSxx_HAL_Driver/Src/stm32h7rsxx_hal_gpio.c</locationURI>
 		</link>
 		<link>
-			<name>Drivers/STM32H7RSxx_HAL_Driver/stm32h7rsxx_hal_gpu2d.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32H7RSxx_HAL_Driver/Src/stm32h7rsxx_hal_gpu2d.c</locationURI>
-		</link>
-		<link>
 			<name>Drivers/STM32H7RSxx_HAL_Driver/stm32h7rsxx_hal_i2c.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32H7RSxx_HAL_Driver/Src/stm32h7rsxx_hal_i2c.c</locationURI>

@@ -20,9 +20,7 @@
 #include "main.h"
 #include "dma2d.h"
 #include "fatfs.h"
-#include "flash.h"
 #include "gpdma.h"
-#include "gpu2d.h"
 #include "i2c.h"
 #include "ltdc.h"
 #include "sdmmc.h"
@@ -135,13 +133,15 @@ int main(void)
   MX_TIM4_Init();
   MX_TIM12_Init();
   MX_UART7_Init();
-  MX_FLASH_Init();
-  MX_GPU2D_Init();
   MX_SDMMC1_SD_Init();
   MX_FATFS_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  // BUG：目前上电之后需要在PC连接打开串口才能正常启动，在上面将如下两行注释：
+  //      MX_USB_OTG_FS_PCD_Init();
+  //      MX_TIM2_Init();
+  //	  即可跳过不需要打开串口才能启动的问题，同时无法使用串口
 
   driver_w800_init();
   ws28xx_init();
@@ -203,7 +203,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
   /* USER CODE BEGIN Callback 1 */
   if (htim->Instance == TIM2) {
-  	ux_system_tasks_run();
+	ux_system_tasks_run();
   }
   /* USER CODE END Callback 1 */
 }
