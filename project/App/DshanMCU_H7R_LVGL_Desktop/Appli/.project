@@ -32,6 +32,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>lvgl</name>
+			<type>2</type>
+			<locationURI>LIB_LVGL_PATH</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32H7RSxx_HAL_Driver/stm32h7rsxx_hal.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32H7RSxx_HAL_Driver/Src/stm32h7rsxx_hal.c</locationURI>
@@ -207,4 +212,10 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Middlewares/Third_Party/FatFs/source/drivers/sd/sd_diskio.c</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>LIB_LVGL_PATH</name>
+			<value>$%7BPARENT-2-PROJECT_LOC%7D/lib/lvgl</value>
+		</variable>
+	</variableList>
 </projectDescription>

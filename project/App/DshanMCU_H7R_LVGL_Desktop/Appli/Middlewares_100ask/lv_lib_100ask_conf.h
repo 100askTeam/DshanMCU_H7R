@@ -15,7 +15,7 @@
 
 #include "lv_conf.h"
 
-#include "lvgl/src/lvgl_private.h"
+#include "src/lvgl_private.h"
 
 /*******************
  * GENERAL SETTING
