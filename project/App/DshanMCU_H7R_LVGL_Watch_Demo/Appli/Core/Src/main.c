@@ -23,7 +23,6 @@
 #include "gpdma.h"
 #include "i2c.h"
 #include "ltdc.h"
-#include "sdmmc.h"
 #include "tim.h"
 #include "usart.h"
 #include "usb_otg.h"
@@ -40,8 +39,6 @@
 #include "rgb_lcd_init.h"
 #include "lvgl_port_touch.h"
 #include "gt9xx.h"
-
-#include "lv_100ask_generic_ui.h"
 
 #include "driver_lcd_backlight.h"
 #include "driver_ws28xx.h"
@@ -134,16 +131,13 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM12_Init();
-  //MX_UART7_Init();
-  //MX_SDMMC1_SD_Init();
-  //MX_FATFS_Init();
   //MX_USB_OTG_FS_PCD_Init();
   //MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   // BUG：目前上电之后需要在PC连接打开串口才能正常启动，在上面将如下两行注释：
   //      MX_USB_OTG_FS_PCD_Init();
   //      MX_TIM2_Init();
-  //	  即可跳过不需要打开串口才能启动的问题，同时无法使用串口
+  //	  即可跳过不需要打�?串口才能启动的问题，同时无法使用串口
 
   //driver_w800_init();
   //ws28xx_init();
