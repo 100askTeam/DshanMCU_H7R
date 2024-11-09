@@ -16,6 +16,11 @@
 
 //#define DIRECT_MODE
 
+#ifdef DIRECT_MODE
+#define LVGL_BUFFER_1_ADDR_AT_SDRAM	(0xC0000000)
+#define LVGL_BUFFER_2_ADDR_AT_SDRAM	(0xC0100000)
+#endif
+
 /**********************
  *  STATIC PROTOTYPES
  **********************/
@@ -31,14 +36,8 @@ static void disp_flush_complete (DMA2D_HandleTypeDef*);
  **********************/
 static lv_display_t * disp;
 static lv_thread_sync_t sync;
+static uint8_t * buf_rotation = (uint8_t *)(uint32_t) 0xC0200000;
 
-#ifdef DIRECT_MODE
-#define LVGL_BUFFER_1_ADDR_AT_SDRAM	(0xC0000000)
-#define LVGL_BUFFER_2_ADDR_AT_SDRAM	(0xC0200000)
-#else
-#define LVGL_BUFFER_1_ADDR_AT_SDRAM	(0xC01F4000)
-#define LVGL_BUFFER_2_ADDR_AT_SDRAM	(0xC03E8000)
-#endif
 
 
 /**********************
@@ -106,23 +105,79 @@ static void disp_flush (lv_display_t * display,
 	}
 	lv_display_flush_ready(disp);
 #else
+
+#if 0
+	/* Not support rotation */
 	lv_coord_t width = lv_area_get_width(area);
 	lv_coord_t height = lv_area_get_height(area);
 
 	SCB_CleanInvalidateDCache();
 
 	DMA2D->CR = 0x0U << DMA2D_CR_MODE_Pos;
-	DMA2D->FGPFCCR = DMA2D_INPUT_RGB565;
-	DMA2D->FGMAR = (uint32_t)px_map;
-	DMA2D->FGOR = 0;
-	DMA2D->OPFCCR = DMA2D_OUTPUT_RGB565;
+	DMA2D->FGPFCCR = DMA2D_INPUT_RGB565;	// 设置前景色颜色格式
+	DMA2D->FGMAR = (uint32_t)px_map;		// 设置前景数据内存地址
+	DMA2D->FGOR = 0;						// 设置前景数据传输偏移
+	DMA2D->OPFCCR = DMA2D_OUTPUT_RGB565;	// 设置颜色格式
 	DMA2D->OMAR = hltdc.LayerCfg[0].FBStartAdress + 2 * \
-				(area->y1 * MY_DISP_HOR_RES + area->x1);
-	DMA2D->OOR = MY_DISP_HOR_RES - width;
-	DMA2D->NLR = (width << DMA2D_NLR_PL_Pos) | (height << DMA2D_NLR_NL_Pos);
-	DMA2D->IFCR = 0x3FU;
+				(area->y1 * MY_DISP_HOR_RES + area->x1); // 填充区域的起始内存地址
+	DMA2D->OOR = MY_DISP_HOR_RES - width;	// 行偏移，即每行多少像素（以像素为单位）
+	DMA2D->NLR = (width << DMA2D_NLR_PL_Pos) | (height << DMA2D_NLR_NL_Pos); // 设置填充区域的宽和高（单位：像素）
+	DMA2D->IFCR = 0x3FU;		 /* 设置DMA2D中断标志清除寄存器 */
 	DMA2D->CR |= DMA2D_CR_TCIE;
-	DMA2D->CR |= DMA2D_CR_START;
+	DMA2D->CR |= DMA2D_CR_START; /* 启动传输 */
+
+#else
+	/* Support rotation */
+	lv_display_rotation_t rotation = lv_display_get_rotation(lv_display_get_default());
+
+	lv_area_t my_area;
+	memcpy(&my_area, area, sizeof(lv_area_t));
+	lv_display_rotate_area(lv_display_get_default(), &my_area);
+
+	lv_coord_t width = lv_area_get_width(area);
+	lv_coord_t height = lv_area_get_height(area);
+
+	if((rotation == LV_DISPLAY_ROTATION_90) ||\
+	   (rotation == LV_DISPLAY_ROTATION_270))
+	{
+		lv_draw_sw_rotate(px_map, buf_rotation, \
+						  width, height, width * 2,  height * 2, \
+						  rotation, LV_COLOR_FORMAT_RGB565);
+	}
+	else
+	{
+		lv_draw_sw_rotate(px_map, buf_rotation, \
+						  width, height, width * 2,  width * 2, \
+						  rotation, LV_COLOR_FORMAT_RGB565);
+	}
+
+	width = lv_area_get_width(&my_area);
+	height = lv_area_get_height(&my_area);
+
+	SCB_CleanInvalidateDCache();
+
+	DMA2D->CR = 0x0U << DMA2D_CR_MODE_Pos;
+	DMA2D->FGPFCCR = DMA2D_INPUT_RGB565;	// 设置前景色颜色格式
+
+	DMA2D->FGMAR = (uint32_t)px_map;		// 设置前景数据内存地址
+	if((rotation == LV_DISPLAY_ROTATION_90)  ||\
+	   (rotation == LV_DISPLAY_ROTATION_180) ||\
+	   (rotation == LV_DISPLAY_ROTATION_270))
+	{
+		DMA2D->FGMAR = (uint32_t)buf_rotation;		// 设置前景数据内存地址
+	}
+
+	DMA2D->FGOR = 0;						// 设置前景数据传输偏移
+	DMA2D->OPFCCR = DMA2D_OUTPUT_RGB565;	// 设置颜色格式
+	DMA2D->OMAR = hltdc.LayerCfg[0].FBStartAdress + 2 * \
+				(my_area.y1 * MY_DISP_HOR_RES + my_area.x1); // 填充区域的起始内存地址
+	DMA2D->OOR = MY_DISP_HOR_RES - width;	// 行偏移，即每行多少像素（以像素为单位）
+	DMA2D->NLR = (width << DMA2D_NLR_PL_Pos) | (height << DMA2D_NLR_NL_Pos); // 设置填充区域的宽和高（单位：像素）
+	DMA2D->IFCR = 0x3FU;		 /* 设置DMA2D中断标志清除寄存器 */
+	DMA2D->CR |= DMA2D_CR_TCIE;
+	DMA2D->CR |= DMA2D_CR_START; /* 启动传输 */
+
+#endif
 #endif
 }
 
