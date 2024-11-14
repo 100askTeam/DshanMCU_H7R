@@ -27,12 +27,13 @@
  *-----------------------------------------------------
  * 2023.08.04      v01         百问科技      创建文件
  *-----------------------------------------------------
+ * 2024.11.11      v02         周岳标       修改
+ *-----------------------------------------------------
  */
 
 
 #include "driver_ir_receiver.h"
 #include "driver_timer.h"
-#include "tim.h"
 
 /* 环形缓冲区: 用来保存解析出来的按键,可以防止丢失 */
 #define BUF_LEN 128
@@ -282,14 +283,7 @@ void IRReceiver_IRQ_Callback(void)
  ***********************************************************************/
 void IRReceiver_Init(void)
 {
-    /* PA10在MX_GPIO_Init()中已经被配置为双边沿触发, 并使能了中断 */
-#if 0
-    /*Configure GPIO pin : PB10 */
-    GPIO_InitStruct.Pin = GPIO_PIN_10;
-    GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING_FALLING;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-#endif
+    /* 红外引脚 在MX_GPIO_Init()中已经被配置为双边沿触发, 并使能了中断 */
 }
 
 /**********************************************************************

@@ -37,12 +37,13 @@
 #include "demos/lv_demos.h"
 
 #include "lvgl_port_display.h"
-#include "rgb_lcd_init.h"
-#include "lvgl_port_touch.h"
-#include "gt9xx.h"
+#include "lv_port_indev.h"
+
 
 #include "lv_100ask_generic_ui.h"
 
+#include "gt9xx.h"
+#include "rgb_lcd_init.h"
 #include "driver_lcd_backlight.h"
 #include "driver_ws28xx.h"
 #include "driver_w800.h"
@@ -94,8 +95,10 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  //HAL_ResumeTick();  // flash boot
-  //__enable_irq();	// SDRAM boot
+#ifdef USE_100ASK_SDRAM_RUN
+  __enable_irq();	// SDRAM boot
+#endif
+  __HAL_RCC_SBS_CLK_ENABLE();
 
   /* USER CODE END 1 */
 
@@ -149,7 +152,7 @@ int main(void)
 
   lv_init();
   lvgl_display_init();
-  lvgl_touchscreen_init();
+  lv_port_indev_init();
 
   lv_tick_set_cb(HAL_GetTick);
   lv_delay_set_cb(HAL_Delay);

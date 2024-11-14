@@ -27,13 +27,49 @@
  *-----------------------------------------------------
  * 2023.08.04      v01         百问科技      创建文件
  *-----------------------------------------------------
+ * 2024.11.11      v02         周岳标       修改
+ *-----------------------------------------------------
  */
 
 
-#include "driver_timer.h"
-#include "tim.h"
+/*********************
+ *      INCLUDES
+ *********************/
 
-extern void IRReceiver_IRQ_Callback(void);
+#include <stdbool.h>
+
+#include "main.h"
+#include "driver_irq.h"
+#include "driver_rotary_encoder.h"
+#include "driver_ir_receiver.h"
+#include "driver_key.h"
+
+/*********************
+ *      DEFINES
+ *********************/
+
+
+/**********************
+ *      TYPEDEFS
+ **********************/
+
+/**********************
+ *  STATIC PROTOTYPES
+ **********************/
+
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+
+
+/**********************
+ *      MACROS
+ **********************/
+
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
 
 /**********************************************************************
  * 函数名称： HAL_GPIO_EXTI_Callback
@@ -49,24 +85,28 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     switch (GPIO_Pin)
     {
-        case IR_REC_Pin:
-        {
-            IRReceiver_IRQ_Callback();
+        case USER_KEY1_Pin:
+        case USER_KEY2_Pin:
+        case USER_KEY3_Pin:
+        	Key_IRQ_Callback(GPIO_Pin);
             break;
-        }
+        case ENCODER_S1_Pin:
+        	RotaryEncoder_IRQ_Callback();
+			break;
+        case IR_REC_Pin:
+        	IRReceiver_IRQ_Callback();
+			break;
 
         default:
-        {
-            break;
-        }
+        	break;
     }
 }
 
 
-void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)//PWM信号传输完成回调函数，该函数非常重要
-{
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, 0);
-	HAL_TIM_PWM_Stop_DMA(&htim3, TIM_CHANNEL_4);
-}
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+
+
 
 

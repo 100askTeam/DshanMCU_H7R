@@ -27,6 +27,8 @@
  *-----------------------------------------------------
  * 2023.08.04      v01         百问科技      创建文件
  *-----------------------------------------------------
+ * 2024.11.11      v02         周岳标       修改
+ *-----------------------------------------------------
  */
 
 
@@ -49,37 +51,6 @@ static TIM_HandleTypeDef *g_HPWM_PassiveBuzzer = &htim4;
  ***********************************************************************/
 void PassiveBuzzer_Init(void)
 {
-#if 0
-    TIM_OC_InitTypeDef sConfig = { 0 };
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-    /**TIM1 GPIO Configuration
-    PA8     ------> TIM1_CH1
-    */
-    GPIO_InitStruct.Pin = PASSIVE_BUZZER_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(PASSIVE_BUZZER_GPIO_Port, &GPIO_InitStruct);
-    
-    //HAL_TIM_Base_DeInit(g_HPWM_PassiveBuzzer);
-    g_HPWM_PassiveBuzzer->Instance = TIM4;
-    g_HPWM_PassiveBuzzer->Init.Prescaler = 71;
-    g_HPWM_PassiveBuzzer->Init.CounterMode = TIM_COUNTERMODE_UP;
-    g_HPWM_PassiveBuzzer->Init.Period = 999;  /* 1KHz */
-    g_HPWM_PassiveBuzzer->Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-    g_HPWM_PassiveBuzzer->Init.RepetitionCounter = 0;
-    g_HPWM_PassiveBuzzer->Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-    //HAL_TIM_Base_Init(g_HPWM_PassiveBuzzer);
-    TIM_Base_SetConfig(g_HPWM_PassiveBuzzer->Instance, &g_HPWM_PassiveBuzzer->Init);
-    //return;
-
-    sConfig.OCMode = TIM_OCMODE_PWM2;        // PWM 输出的两种模式:PWM1 当极性为低,CCR<CNT,输出低电平,反之高电平
-    sConfig.OCPolarity = TIM_OCPOLARITY_HIGH; // 设置极性为低(硬件上低电平亮灯)
-    sConfig.OCFastMode = TIM_OCFAST_DISABLE; // 输出比较快速使能禁止(仅在 PWM1 和 PWM2 可设置)
-    sConfig.Pulse      = 499;                // 在 PWM1 模式下,50%占空比
-    
-    HAL_TIM_PWM_ConfigChannel(g_HPWM_PassiveBuzzer, &sConfig, TIM_CHANNEL_2);
-#endif
 }
 
 
