@@ -85,6 +85,53 @@ void MX_FATFS_Init(void)
 }
 
 /* USER CODE BEGIN Application */
+int32_t FS_FileTest(void)
+{
+	FRESULT res; /* FatFs function common result code */
+	FIL SDFile;
+
+	uint32_t byteswritten, bytesread; /* File write/read counts */
+	uint8_t rtext[100]; /* File read buffer */
+	const uint8_t wtext[] = "This is STM32(DshanMCU-H7R) working with FatFs and uSD diskio driver"; /* File write buffer */
+
+	//if(appli_sd_state == APPLICATION_SD_ERROR)	return -1;
+
+	/* Create and Open a new text file object with write access */
+	if(f_open(&SDFile,  "DshanMCUH7R.TXT", FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
+	{
+
+	  /* Write data to the text file */
+	  res = f_write(&SDFile, (const void *)wtext, sizeof(wtext), (void *)&byteswritten);
+
+	  if((byteswritten > 0) && (res == FR_OK))
+	  {
+		/* Close the open text file */
+		f_close(&SDFile);
+
+		/* Open the text file object with read access */
+		if(f_open(&SDFile, "DshanMCUH7R.TXT", FA_READ) == FR_OK)
+		{
+		  /* Read data from the text file */
+		  res = f_read(&SDFile, ( void *)rtext, sizeof(rtext), (void *)&bytesread);
+
+		  if((bytesread > 0) && (res == FR_OK))
+		  {
+			/* Close the open text file */
+			f_close(&SDFile);
+
+			/* Compare read data with the expected data */
+			if(bytesread == byteswritten)
+			{
+			  /* Success of the demo: no error occurrence */
+			  return 0;
+			}
+		  }
+		}
+	  }
+	}
+
+	return -1;
+}
 #if 0
 
 /**
