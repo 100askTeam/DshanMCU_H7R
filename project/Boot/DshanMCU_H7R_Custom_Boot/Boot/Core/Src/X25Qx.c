@@ -18,9 +18,9 @@
 #include "X25Qx.h"
 
 
-SPI_HandleTypeDef *X25Qx_SPIFLASH_Handler = &hspi5;
+static SPI_HandleTypeDef *X25Qx_SPIFLASH_Handler = &hspi5;
 
-X25Qx_StatusTypeDef X25QStatus = X25QxCSIG_OK;
+static X25Qx_StatusTypeDef X25QStatus;
 
 /**********************************************************************************************************
  @Function			void X25Qx_SPIFLASH_Init(void)
@@ -34,16 +34,43 @@ void X25Qx_SPIFLASH_Init(void)
 	uint32_t ReadManufactureID;
 	uint32_t ReadIdentificationID;
 
+	X25QStatus = X25QxCSIG_OK;
+
 	X25Qx_SPIFLASH_WakeUp();
 
+#if 0
 	ReadDeviceID = X25Qx_SPIFLASH_ReadDeviceID();
 	ReadManufactureID = X25Qx_SPIFLASH_ReadManufactureID();
 	ReadIdentificationID = X25Qx_SPIFLASH_ReadIdentificationID();
-	if((ReadDeviceID != X25QxCSIGDeviceID) ||\
-	   (ReadManufactureID != X25QxCSIGManufactureID) ||\
-	   (ReadIdentificationID != X25QxCSIGIdentificationID)) {
+
+#if USE_W25Q_128J
+	if((ReadDeviceID 			!= X25QxCSIGDeviceID) ||\
+	   (ReadManufactureID 		!= X25QxCSIGManufactureID) ||\
+	   (ReadIdentificationID 	!= X25QxCSIGIdentificationID)) {
 		X25QStatus = X25QxCSIG_ERROR;
 	}
+	else	X25QStatus = X25QxCSIG_OK;
+#endif
+
+#if USE_GD25Q_80E
+	if((ReadDeviceID 			!= GD25Q_80E_DeviceID) ||\
+	   (ReadManufactureID 		!= GD25Q_80E_ManufactureID) ||\
+	   (ReadIdentificationID 	!= GD25Q_80E_IdentificationID)) {
+		X25QStatus = X25QxCSIG_ERROR;
+	}
+	else	X25QStatus = X25QxCSIG_OK;
+#endif
+
+#if USE_GD25Q_256E
+	if((ReadDeviceID 			!= GD25Q_256E_DeviceID) ||\
+	   (ReadManufactureID 		!= GD25Q_256E_ManufactureID) ||\
+	   (ReadIdentificationID 	!= GD25Q_256E_IdentificationID)) {
+		X25QStatus = X25QxCSIG_ERROR;
+	}
+	else	X25QStatus = X25QxCSIG_OK;
+#endif
+
+#endif
 }
 
 /**********************************************************************************************************
@@ -555,7 +582,7 @@ void X25Qx_SPIFLASH_WritePage(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t Num
 void X25Qx_SPIFLASH_WriteBuffer(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t NumByteToWrite)
 {
 #if USE_GD25Q_80E || USE_GD25Q_256E || USE_W25Q_128J
-	uint16_t pagereMain;
+	uint32_t pagereMain;
 
 	if (X25QxCSIG_OK != X25Qx_SPIFLASH_Get_Status()) {
 		return;

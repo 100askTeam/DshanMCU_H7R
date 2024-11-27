@@ -81,8 +81,6 @@ void HAL_MspInit(void)
   /* Enable the XSPIM_P2 interface */
   HAL_PWREx_EnableXSPIM2();
 
-  HAL_PWREx_EnableUSBReg();
-
   /* USER CODE BEGIN MspInit 1 */
 
   /* USER CODE END MspInit 1 */

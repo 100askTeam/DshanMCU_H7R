@@ -23,7 +23,6 @@
 #include "gpdma.h"
 #include "ltdc.h"
 #include "memorymap.h"
-#include "sbs.h"
 #include "spi.h"
 #include "tim.h"
 #include "usb_otg.h"
@@ -115,7 +114,6 @@ int main(void)
   MX_LTDC_Init();
   MX_DMA2D_Init();
   MX_SPI5_Init();
-  MX_SBS_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_TIM12_Init();
   MX_TIM2_Init();

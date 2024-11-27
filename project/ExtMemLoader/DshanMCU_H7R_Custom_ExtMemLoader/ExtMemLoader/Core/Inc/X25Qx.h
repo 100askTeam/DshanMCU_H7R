@@ -16,24 +16,25 @@
 /* Important! */
 /* Choose the chip */
 #define USE_W25Q_128J	1
-#define USE_GD25Q_80E	0
-#define USE_GD25Q_256E	0
+#define USE_GD25Q_80E	1
+#define USE_GD25Q_256E	1
 
 #if USE_W25Q_128J
 #define X25QxCSIGDeviceID						0x17
 #define X25QxCSIGManufactureID					0xef17
 #define X25QxCSIGIdentificationID				0xef4018
+#endif
 
-#elif USE_GD25Q_80E
-#define X25QxCSIGDeviceID						0x13
-#define X25QxCSIGManufactureID					0xC813
-#define X25QxCSIGIdentificationID				0xC84014
+#if USE_GD25Q_80E
+#define GD25Q_80E_DeviceID						0x13
+#define GD25Q_80E_ManufactureID					0xC813
+#define GD25Q_80E_IdentificationID				0xC84014
+#endif
 
-#elif USE_GD25Q_256E
-#define X25QxCSIGDeviceID						0x18
-#define X25QxCSIGManufactureID					0xC818
-#define X25QxCSIGIdentificationID				0xC84019
-
+#if USE_GD25Q_256E
+#define GD25Q_256E_DeviceID						0x18
+#define GD25Q_256E_ManufactureID				0xC818
+#define GD25Q_256E_IdentificationID				0xC84019
 #endif
 
 
@@ -188,12 +189,10 @@
 
 typedef enum
 {
-	X25QxCSIG_OK								= 0x00,
-	X25QxCSIG_ERROR							= 0x01
+	X25QxCSIG_OK		= 0x00,
+	X25QxCSIG_ERROR		= 0x01
 }X25Qx_StatusTypeDef;
 
-extern SPI_HandleTypeDef *X25Qx_SPIFLASH_Handler;
-extern X25Qx_StatusTypeDef X25QStatus;
 
 void X25Qx_SPIFLASH_Init(void);														//X25Q SPIFLASH 初始化
 X25Qx_StatusTypeDef X25Qx_SPIFLASH_Get_Status(void);										//X25Q SPIFLASH 状态
