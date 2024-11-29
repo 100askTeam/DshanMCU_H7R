@@ -20,7 +20,7 @@
 
 static SPI_HandleTypeDef *X25Qx_SPIFLASH_Handler = &hspi5;
 
-static X25Qx_StatusTypeDef X25QStatus;
+static X25Qx_StatusTypeDef X25QStatus = X25QxCSIG_OK;
 
 /**********************************************************************************************************
  @Function			void X25Qx_SPIFLASH_Init(void)
@@ -30,15 +30,15 @@ static X25Qx_StatusTypeDef X25QStatus;
 **********************************************************************************************************/
 void X25Qx_SPIFLASH_Init(void)
 {
-	uint32_t ReadDeviceID;
-	uint32_t ReadManufactureID;
-	uint32_t ReadIdentificationID;
-
 	X25QStatus = X25QxCSIG_OK;
 
 	X25Qx_SPIFLASH_WakeUp();
 
 #if 0
+	uint32_t ReadDeviceID;
+	uint32_t ReadManufactureID;
+	uint32_t ReadIdentificationID;
+
 	ReadDeviceID = X25Qx_SPIFLASH_ReadDeviceID();
 	ReadManufactureID = X25Qx_SPIFLASH_ReadManufactureID();
 	ReadIdentificationID = X25Qx_SPIFLASH_ReadIdentificationID();

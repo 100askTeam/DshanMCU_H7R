@@ -46,11 +46,11 @@ void MX_SDMMC1_SD_Init(void)
   hsd1.Init.ClockDiv = 0x02;
   if (HAL_SD_Init(&hsd1) != HAL_OK)
   {
-    Error_Handler();
+    //Error_Handler();
   }
   /* USER CODE BEGIN SDMMC1_Init 2 */
-  // 如果你重新生成了该工程，在没有接上sd卡时启动会启动失败，原因是没有接sd卡时 HAL_SD_Init 会失败�??
-  // 只需将上面的 Error_Handler(); 注释掉即�?---不管有没有接上sd卡都能�?�过�?
+  // 如果你重新生成了该工程，在没有接上sd卡时启动会启动失败，原因是没有接sd卡时 HAL_SD_Init 会失败�??
+  // 只需将上面的 Error_Handler(); 注释掉即�?---不管有没有接上sd卡都能�?�过�?
   /* USER CODE END SDMMC1_Init 2 */
 
 }
