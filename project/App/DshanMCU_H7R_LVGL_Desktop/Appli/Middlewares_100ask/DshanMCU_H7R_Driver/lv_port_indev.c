@@ -585,6 +585,7 @@ static bool button_is_pressed(uint8_t id)
 static void click_check_timer(lv_timer_t * timer)
 {
     static uint8_t buzzer_state = 0;
+    uint16_t sound = 0;
     lv_indev_state_t indev_state = LV_INDEV_STATE_RELEASED;
 
     lv_indev_t * i = lv_indev_get_next(NULL);
@@ -606,7 +607,8 @@ static void click_check_timer(lv_timer_t * timer)
 
     if(indev_state == LV_INDEV_STATE_PRESSED)
     {
-        if(buzzer_state == 0)
+    	sound = sys_generic_get_sound();
+    	if((sound == 1) && (buzzer_state == 0))
         {
             buzzer_state = 1;
             PassiveBuzzer_Control(1);
@@ -620,7 +622,7 @@ static void click_check_timer(lv_timer_t * timer)
     }
     else if(indev_state == LV_INDEV_STATE_RELEASED)
     {
-        if(buzzer_state)
+    	if(buzzer_state == 1)
         {
             buzzer_state = 0;
             PassiveBuzzer_Control(0);
