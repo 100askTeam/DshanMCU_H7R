@@ -257,7 +257,22 @@ static void ux_device_cdc_acm_transmit(uint8_t *data, uint32_t len)
         ux_device_class_cdc_acm_write_with_callback(cdc_acm, (UCHAR *)data, (ULONG)len);
 
         /* waiting for completion */
-        while (g_ux_device_cdc_acm_write_sta == 0);
+#if 1
+        volatile uint32_t i = 0;
+        while (g_ux_device_cdc_acm_write_sta == 0){
+        	//if(++i >= 250000) break; // 5ms
+        	if(++i >= 50000) break; // 1ms //us: (SystemCoreClock / 8U / 1000000U)
+        }
+#else
+        uint32_t befor_tick;
+        uint32_t after_tick;
+
+        befor_tick = HAL_GetTick();
+        while (g_ux_device_cdc_acm_write_sta == 0){
+        	after_tick = HAL_GetTick();
+        	if((after_tick - befor_tick) >= 2) break;  // 2ms
+        }
+#endif
     }
 }
 
