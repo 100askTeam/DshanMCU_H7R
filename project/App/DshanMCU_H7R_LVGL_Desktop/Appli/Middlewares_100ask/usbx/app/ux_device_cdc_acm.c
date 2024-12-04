@@ -215,25 +215,19 @@ VOID USBD_CDC_ACM_ParameterChange(VOID *cdc_acm_instance)
     case UX_SLAVE_CLASS_CDC_ACM_SET_LINE_CODING :
 
     	CDC_VCP_LineCoding.ux_slave_class_cdc_acm_parameter_baudrate = ((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance)->ux_slave_class_cdc_acm_baudrate;
-		CDC_VCP_LineCoding.ux_slave_class_cdc_acm_parameter_stop_bit = ((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance)->ux_slave_class_cdc_acm_stop_bit;
-		CDC_VCP_LineCoding.ux_slave_class_cdc_acm_parameter_parity = ((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance)->ux_slave_class_cdc_acm_parity;
-		CDC_VCP_LineCoding.ux_slave_class_cdc_acm_parameter_data_bit = ((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance)->ux_slave_class_cdc_acm_data_bit;
-		//ux_device_class_cdc_acm_ioctl((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm, UX_SLAVE_CLASS_CDC_ACM_IOCTL_SET_LINE_CODING, (VOID *)&line_coding);
+		  CDC_VCP_LineCoding.ux_slave_class_cdc_acm_parameter_stop_bit = ((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance)->ux_slave_class_cdc_acm_stop_bit;
+		  CDC_VCP_LineCoding.ux_slave_class_cdc_acm_parameter_parity = ((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance)->ux_slave_class_cdc_acm_parity;
+		  CDC_VCP_LineCoding.ux_slave_class_cdc_acm_parameter_data_bit = ((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance)->ux_slave_class_cdc_acm_data_bit;
+		  //ux_device_class_cdc_acm_ioctl((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm, UX_SLAVE_CLASS_CDC_ACM_IOCTL_SET_LINE_CODING, (VOID *)&line_coding);
 
-		/* Set the Line Coding parameters */
-	  if (ux_device_class_cdc_acm_ioctl((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance, UX_SLAVE_CLASS_CDC_ACM_IOCTL_SET_LINE_CODING,
-										&CDC_VCP_LineCoding) != UX_SUCCESS)
-	  {
-		Error_Handler();
-	  }
-
+		  /* Set the Line Coding parameters */
+	    if (ux_device_class_cdc_acm_ioctl((UX_SLAVE_CLASS_CDC_ACM *)cdc_acm_instance, UX_SLAVE_CLASS_CDC_ACM_IOCTL_SET_LINE_CODING, &CDC_VCP_LineCoding) != UX_SUCCESS)
+      {
+        Error_Handler();
+      }
       break;
 
     case UX_SLAVE_CLASS_CDC_ACM_GET_LINE_CODING :
-
-
-
-
       break;
 
     case UX_SLAVE_CLASS_CDC_ACM_SET_CONTROL_LINE_STATE :
@@ -260,8 +254,8 @@ static void ux_device_cdc_acm_transmit(uint8_t *data, uint32_t len)
 #if 1
         volatile uint32_t i = 0;
         while (g_ux_device_cdc_acm_write_sta == 0){
-        	if(++i >= 50000) break; // 1ms //us: (SystemCoreClock / 8U / 1000000U)
-        	__NOP();
+          if(++i >= 50000) break; // 1ms //us: (SystemCoreClock / 8U / 1000000U)
+          __NOP();
         }
 #else
         uint32_t befor_tick;
@@ -269,8 +263,8 @@ static void ux_device_cdc_acm_transmit(uint8_t *data, uint32_t len)
 
         befor_tick = HAL_GetTick();
         while (g_ux_device_cdc_acm_write_sta == 0){
-        	after_tick = HAL_GetTick();
-        	if((after_tick - befor_tick) >= 2) break;  // 2ms
+          after_tick = HAL_GetTick();
+          if((after_tick - befor_tick) >= 2) break;  // 2ms
         }
 #endif
     }
