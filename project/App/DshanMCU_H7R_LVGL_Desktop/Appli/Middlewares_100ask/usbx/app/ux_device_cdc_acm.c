@@ -260,8 +260,8 @@ static void ux_device_cdc_acm_transmit(uint8_t *data, uint32_t len)
 #if 1
         volatile uint32_t i = 0;
         while (g_ux_device_cdc_acm_write_sta == 0){
-        	//if(++i >= 250000) break; // 5ms
         	if(++i >= 50000) break; // 1ms //us: (SystemCoreClock / 8U / 1000000U)
+        	__NOP();
         }
 #else
         uint32_t befor_tick;
