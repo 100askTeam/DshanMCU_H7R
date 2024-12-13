@@ -30,12 +30,12 @@
 /*********************
  *      DEFINES
  *********************/
-#define LV_INDEV_TYPE_BUTTON_TEST 					1
-#define LV_INDEV_TYPE_BUTTON_TEST_USE_INTERRUPT		1
+#define LV_INDEV_TYPE_BUTTON 					0
+#define LV_INDEV_TYPE_BUTTON_USE_INTERRUPT		0
 
-#define LV_INDEV_TYPE_ENCODER_TEST 					1
-#define LV_INDEV_TYPE_KEYPAD_TEST 					1
-#define LV_INDEV_TYPE_ENCODER_KEY_SIM_TEST 			1
+#define LV_INDEV_TYPE_ENCODER 					0  /* 不通过编码器控制，留给测试程序使用 */
+#define LV_INDEV_TYPE_KEYPAD 					1  /* 红外遥控 */
+#define LV_INDEV_TYPE_ENCODER_KEY_SIM 			0
 
 
 /**********************
@@ -119,8 +119,8 @@ void lv_port_indev_init(void)
     lv_indev_set_type(indev_touchpad, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(indev_touchpad, touchpad_read);
 
-#if LV_INDEV_TYPE_ENCODER_KEY_SIM_TEST == 0
-#if LV_INDEV_TYPE_BUTTON_TEST == 1
+#if LV_INDEV_TYPE_ENCODER_KEY_SIM == 0
+#if LV_INDEV_TYPE_BUTTON == 1
     /*------------------
      * Button
      * -----------------*/
@@ -144,8 +144,8 @@ void lv_port_indev_init(void)
 #endif
 #endif
 
-#if LV_INDEV_TYPE_ENCODER_KEY_SIM_TEST == 0
-#if LV_INDEV_TYPE_ENCODER_TEST == 1
+#if LV_INDEV_TYPE_ENCODER_KEY_SIM == 0
+#if LV_INDEV_TYPE_ENCODER == 1
     /*------------------
      * Encoder
      * -----------------*/
@@ -172,7 +172,7 @@ void lv_port_indev_init(void)
     lv_indev_set_read_cb(indev_encoder, encoder_key_sim_read);
 #endif
 
-#if LV_INDEV_TYPE_KEYPAD_TEST == 1
+#if LV_INDEV_TYPE_KEYPAD == 1
     /*------------------
      * Keypad
      * -----------------*/
@@ -216,11 +216,11 @@ void lv_port_indev_init(void)
 	lv_group_t * group = lv_group_create();
 	lv_group_set_default(group);
 
-#if LV_INDEV_TYPE_ENCODER_TEST == 1
+#if LV_INDEV_TYPE_ENCODER == 1
 	lv_indev_set_group(indev_encoder, group);
 #endif
 
-#if LV_INDEV_TYPE_KEYPAD_TEST == 1
+#if LV_INDEV_TYPE_KEYPAD == 1
 	lv_indev_set_group(indev_keypad, group);
 #endif
 
@@ -546,7 +546,7 @@ static void button_read(lv_indev_t * indev_drv, lv_indev_data_t * data)
 static int8_t button_get_pressed_id(void)
 {
 
-#if LV_INDEV_TYPE_BUTTON_TEST_USE_INTERRUPT == 1
+#if LV_INDEV_TYPE_BUTTON_USE_INTERRUPT == 1
     int8_t i;
 
     /*Check to buttons see which is being pressed (assume there are 2 buttons)*/
