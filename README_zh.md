@@ -40,7 +40,7 @@ git submodule update --init --recursive
 
 ## 视频教程
 
-- 配套视频教程（基于LVGL学习开发）：[https://www.bilibili.com/video/BV1WE421K75k](https://www.bilibili.com/video/BV1WE421K75k)
+- 配套视频教程（基于LVGL学习开发）：[https://www.bilibili.com/video/BV1NBmoYcEvn](https://www.bilibili.com/video/BV1NBmoYcEvn)
 
 ## 演示视频
 
@@ -50,7 +50,7 @@ git submodule update --init --recursive
 
 这是一个开源的项目，非常欢迎大家一起参与改进！
 
-- QQ技术交流群（如群满，请加qq：401684796 验证备注：LVGL）：774083288
+- QQ技术交流群（如群满，请加qq：401684796 验证备注：LVGL）： 962138234
 - 微信交流群：添加微信： baiwenkeji_fae 验证备注：LVGL
 - lvgl官网：[https://lvgl.io](https://lvgl.io)
 - lvgl官方文档：[https://docs.lvgl.io](https://docs.lvgl.io)

@@ -37,7 +37,7 @@ git submodule update --init --recursive
 ```
 
 
-# Video Tutorials
+# Video
 
 - Demo video of APP project "DshanMCU-H7R_LVGL-Desktop"：[https://www.bilibili.com/video/BV1Tw4m1k7C3](https://www.bilibili.com/video/BV1Tw4m1k7C3)
 
